@@ -14,8 +14,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Удаляем старый контейнер, если он есть
-            sudo docker rm -f my-web-auto || true
-            # Запускаем новый
-            sudo docker run -d --name my-web-auto -p 8083:80 nginx
+            cd ~/my-devops-lab3
+            git pull origin main
+            sudo docker build -t my-custom-app .
+            sudo docker rm -f my-running-app || true
+            sudo docker run -d --name my-running-app -p 5000:5000 my-custom-app
             
